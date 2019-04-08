@@ -44,7 +44,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnVpnProfileSelectedListener
+public class 	MainActivity extends AppCompatActivity implements OnVpnProfileSelectedListener
 {
 	public static final String CONTACT_EMAIL = "android@strongswan.org";
 	public static final String EXTRA_CRL_LIST = "org.strongswan.android.CRL_LIST";

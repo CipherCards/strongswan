@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "org.strongswan.android"
@@ -28,8 +27,9 @@ android {
     }
 
     tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn buildNative
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        compileTask ->
+            compileTask.dependsOn buildNative
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
 
     clean.dependsOn 'cleanNative'
@@ -51,5 +51,6 @@ dependencies {
     implementation 'com.android.support:design:26.0.2'
     implementation 'com.android.support:preference-v7:26.0.2'
     implementation 'com.android.support:support-v4:26.0.2'
+    implementation 'com.android.support:support-annotations:26.1.0'
     testImplementation 'junit:junit:4.12'
 }

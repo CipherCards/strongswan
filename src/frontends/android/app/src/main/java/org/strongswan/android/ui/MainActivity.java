@@ -18,11 +18,13 @@
 package org.strongswan.android.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +36,13 @@ import android.text.format.Formatter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.auth0.android.Auth0;
+import com.auth0.android.authentication.AuthenticationException;
+import com.auth0.android.callback.BaseCallback;
+import com.auth0.android.provider.AuthCallback;
+import com.auth0.android.provider.WebAuthProvider;
+import com.auth0.android.result.Credentials;
 
 import org.strongswan.android.R;
 import org.strongswan.android.data.VpnProfile;
@@ -56,6 +65,8 @@ public class 	MainActivity extends AppCompatActivity implements OnVpnProfileSele
 
 	private static final String DIALOG_TAG = "Dialog";
 
+	private Auth0 auth0 = null;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -66,6 +77,10 @@ public class 	MainActivity extends AppCompatActivity implements OnVpnProfileSele
 		bar.setDisplayShowHomeEnabled(true);
 		bar.setDisplayShowTitleEnabled(false);
 		bar.setIcon(R.drawable.ic_launcher);
+
+		auth0 = new Auth0(getString(R.string.com_auth0_client_id), getString(R.string.com_auth0_domain));
+		//Configure the account in OIDC conformant mode
+		auth0.setOIDCConformant(true);
 
 		/* load CA certificates in a background task */
 		new LoadCertificatesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -93,6 +108,30 @@ public class 	MainActivity extends AppCompatActivity implements OnVpnProfileSele
 	{
 		switch (item.getItemId())
 		{
+			case R.id.propervpn_login:
+				WebAuthProvider.init(auth0)
+						.start(MainActivity.this, new AuthCallback() {
+							@Override
+							public void onFailure(@NonNull Dialog dialog) {
+								Toast.makeText(getApplicationContext(), "LOGIN FAILED ?", Toast.LENGTH_SHORT).show();
+
+							}
+
+							@Override
+							public void onFailure(AuthenticationException exception) {
+
+								Toast.makeText(getApplicationContext(), "LOGIN FAILED exc " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+							}
+
+							@Override
+							public void onSuccess(@NonNull Credentials credentials) {
+
+								Toast.makeText(getApplicationContext(), "LOGIN OK", Toast.LENGTH_SHORT).show();
+
+							}
+						});
+				return true;
 			case R.id.menu_import_profile:
 				Intent intent = new Intent(this, VpnProfileImportActivity.class);
 				startActivity(intent);

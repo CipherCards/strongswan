@@ -228,4 +228,8 @@
         completions."
     </string>
 
+    <!-- Auth -->
+    <string name="com_auth0_client_id">vnsHoMqnTcDmoRZzVsV4FsUTC5ZzusC_</string>
+    <string name="com_auth0_domain">auth.propervpn.com</string>
+
 </resources>

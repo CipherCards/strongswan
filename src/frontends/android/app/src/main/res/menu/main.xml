@@ -17,6 +17,11 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/propervpn_login"
+        android:enabled="true"
+        android:title="ProperVPN login"
+        android:visible="true" />
+    <item
         android:id="@+id/menu_import_profile"
         android:title="@string/profile_import"
         app:showAsAction="withText" />
